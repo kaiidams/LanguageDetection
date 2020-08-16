@@ -13,7 +13,7 @@ namespace LanguageDetection.Utils
 
         static Messages()
         {
-            rm = new ResourceManager("Messages",
+            rm = new ResourceManager("LanguageDetection.Utils.Messages",
                                    typeof(Messages).Assembly);
         }
 

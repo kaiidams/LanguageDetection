@@ -1,108 +1,134 @@
-
-
-
-
-
 using LanguageDetection.Utils;
 using System;
 using System.IO;
 using System.IO.Compression;
 using System.Xml;
-/**
-* Load Wikipedia's abstract XML as corpus and
-* generate its language profile in JSON format.
-* 
-* @author Nakatani Shuyo
-* 
-*/
-public class GenProfile {
 
+namespace LanguageDetection
+{
     /**
-     * Load Wikipedia abstract database file and generate its language profile
-     * @param lang target language name
-     * @param file target database file path
-     * @return Language profile instance
-     * @throws LangDetectException 
-     */
-    public static LangProfile LoadFromWikipediaAbstract(string lang, string file) {
+    * Load Wikipedia's abstract XML as corpus and
+    * generate its language profile in JSON format.
+    * 
+    * @author Nakatani Shuyo
+    * 
+    */
+    public class GenProfile
+    {
 
-        LangProfile profile = new LangProfile(lang);
+        /**
+         * Load Wikipedia abstract database file and generate its language profile
+         * @param lang target language name
+         * @param file target database file path
+         * @return Language profile instance
+         * @throws LangDetectException 
+         */
+        public static LangProfile LoadFromWikipediaAbstract(string lang, string file)
+        {
 
-        StreamReader br = null;
-        try {
-            Stream strm = File.OpenRead(file);
-            if (file.EndsWith(".gz")) strm = new GZipStream(strm, CompressionMode.Decompress);
-            br = new StreamReader(strm);
+            LangProfile profile = new LangProfile(lang);
 
-            TagExtractor tagextractor = new TagExtractor("abstract", 100);
+            StreamReader br = null;
+            try
+            {
+                Stream strm = File.OpenRead(file);
+                if (file.EndsWith(".gz")) strm = new GZipStream(strm, CompressionMode.Decompress);
+                br = new StreamReader(strm);
 
-            XmlReader reader = XmlReader.Create(br);
-            try {
-                while (reader.Read()) {
-                    switch (reader.NodeType) {
-                    case XmlNodeType.Element:
-                        tagextractor.SetTag(reader.Name);
-                        break;
-                    case XmlNodeType.Text:
-                        tagextractor.Add(reader.Value);
-                        break;
-                    case XmlNodeType.EndElement:
-                        string text = tagextractor.CloseTag();
-                        if (text != null) profile.Update(text);
-                        break;
+                TagExtractor tagextractor = new TagExtractor("abstract", 100);
+
+                XmlReader reader = XmlReader.Create(br);
+                try
+                {
+                    while (reader.Read())
+                    {
+                        switch (reader.NodeType)
+                        {
+                            case XmlNodeType.Element:
+                                tagextractor.SetTag(reader.Name);
+                                break;
+                            case XmlNodeType.Text:
+                                tagextractor.Add(reader.Value);
+                                break;
+                            case XmlNodeType.EndElement:
+                                string text = tagextractor.CloseTag();
+                                if (text != null) profile.Update(text);
+                                break;
+                        }
                     }
                 }
-            } catch (XmlException e) {
-                throw new LangDetectException(ErrorCode.TrainDataFormatError, "Training database file '" + file + "' is an invalid XML.");
-            } finally {
-                try {
-                    if (reader != null) reader.Close();
-                } catch (XmlException e) {}
+                catch (XmlException e)
+                {
+                    throw new LangDetectException(ErrorCode.TrainDataFormatError, "Training database file '" + file + "' is an invalid XML.");
+                }
+                finally
+                {
+                    try
+                    {
+                        if (reader != null) reader.Close();
+                    }
+                    catch (XmlException e) { }
+                }
+                Console.WriteLine(lang + ":" + tagextractor.Count());
+
             }
-            Console.WriteLine(lang + ":" + tagextractor.Count());
-
-        } catch (IOException e) {
-            throw new LangDetectException(ErrorCode.CantOpenTrainData, "Can't open training database file '" + file + "'");
-        } finally {
-            try {
-                if (br != null) br.Close();
-            } catch (IOException e) {}
-        }
-        return profile;
-    }
-
-
-    /**
-     * Load text file with UTF-8 and generate its language profile
-     * @param lang target language name
-     * @param file target file path
-     * @return Language profile instance
-     * @throws LangDetectException 
-     */
-    public static LangProfile LoadFromText(string lang, string file) {
-
-        LangProfile profile = new LangProfile(lang);
-
-        StreamReader strm = null;
-        try {
-            strm = new StreamReader(File.OpenRead(file));
-
-            int count = 0;
-            while (!strm.EndOfStream) {
-                string line = strm.ReadLine();
-                profile.Update(line);
-                ++count;
+            catch (IOException e)
+            {
+                throw new LangDetectException(ErrorCode.CantOpenTrainData, "Can't open training database file '" + file + "'");
             }
-
-            Console.WriteLine(lang + ":" + count);
-
-        } catch (IOException e) {
-            throw new LangDetectException(ErrorCode.CantOpenTrainData, "Can't open training database file '" + file + "'");
-        } finally {
-            try {
-                if (strm != null) strm.Close();
-            } catch (IOException e) {}
+            finally
+            {
+                try
+                {
+                    if (br != null) br.Close();
+                }
+                catch (IOException e) { }
+            }
+            return profile;
         }
-        return profile;
+
+
+        /**
+         * Load text file with UTF-8 and generate its language profile
+         * @param lang target language name
+         * @param file target file path
+         * @return Language profile instance
+         * @throws LangDetectException 
+         */
+        public static LangProfile LoadFromText(string lang, string file)
+        {
+
+            LangProfile profile = new LangProfile(lang);
+
+            StreamReader strm = null;
+            try
+            {
+                strm = new StreamReader(File.OpenRead(file));
+
+                int count = 0;
+                while (!strm.EndOfStream)
+                {
+                    string line = strm.ReadLine();
+                    profile.Update(line);
+                    ++count;
+                }
+
+                Console.WriteLine(lang + ":" + count);
+
+            }
+            catch (IOException e)
+            {
+                throw new LangDetectException(ErrorCode.CantOpenTrainData, "Can't open training database file '" + file + "'");
+            }
+            finally
+            {
+                try
+                {
+                    if (strm != null) strm.Close();
+                }
+                catch (IOException e) { }
+            }
+            return profile;
+        }
     }
 }

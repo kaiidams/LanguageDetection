@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace LanguageDetection.Utils
@@ -9,19 +10,27 @@ namespace LanguageDetection.Utils
     * Users don't use this class directly.
     * 
     * @author Nakatani Shuyo
-*/
+    */
     public class LangProfile
     {
         private const int MINIMUM_FREQ = 2;
         private const int LESS_FREQ_RATIO = 100000;
-        public string name = null;
-        public Dictionary<string, int> freq = new Dictionary<string, int>();
-        public int[] n_words = new int[NGram.N_GRAM];
+
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [JsonPropertyName("freq")]
+        public Dictionary<string, int> Freq { get; set; }
+
+        [JsonPropertyName("n_words")]
+        public int[] N_Words { get; set; }
 
         /**
          * Constructor for JSONIC 
          */
-        public LangProfile() { }
+        public LangProfile()
+        {
+        }
 
         /**
          * Normal Constructor
@@ -29,7 +38,9 @@ namespace LanguageDetection.Utils
          */
         public LangProfile(string name)
         {
-            this.name = name;
+            Name = name;
+            Freq = new Dictionary<string, int>();
+            N_Words = new int[NGram.N_GRAM];
         }
 
         /**
@@ -38,17 +49,17 @@ namespace LanguageDetection.Utils
          */
         public void Add(string gram)
         {
-            if (name == null || gram == null) return;   // Illegal
+            if (Name == null || gram == null) return;   // Illegal
             int len = gram.Length;
             if (len < 1 || len > NGram.N_GRAM) return;  // Illegal
-            ++n_words[len - 1];
-            if (freq.ContainsKey(gram))
+            ++N_Words[len - 1];
+            if (Freq.ContainsKey(gram))
             {
-                freq[gram] = freq[gram] + 1;
+                Freq[gram] = Freq[gram] + 1;
             }
             else
             {
-                freq[gram] = 1;
+                Freq[gram] = 1;
             }
         }
 
@@ -57,19 +68,19 @@ namespace LanguageDetection.Utils
          */
         public void OmitLessFreq()
         {
-            if (name == null) return;   // Illegal
-            int threshold = n_words[0] / LESS_FREQ_RATIO;
+            if (Name == null) return;   // Illegal
+            int threshold = N_Words[0] / LESS_FREQ_RATIO;
             if (threshold < MINIMUM_FREQ) threshold = MINIMUM_FREQ;
 
-            string[] keys = freq.Keys.ToArray();
+            string[] keys = Freq.Keys.ToArray();
             int roman = 0;
             foreach (string key in keys)
             {
-                int count = freq[key];
+                int count = Freq[key];
                 if (count <= threshold)
                 {
-                    n_words[key.Length - 1] -= count;
-                    freq.Remove(key);
+                    N_Words[key.Length - 1] -= count;
+                    Freq.Remove(key);
                 }
                 else
                 {
@@ -81,15 +92,15 @@ namespace LanguageDetection.Utils
             }
 
             // roman check
-            if (roman < n_words[0] / 3)
+            if (roman < N_Words[0] / 3)
             {
-                string[] keys2 = freq.Keys.ToArray();
-                foreach (string key in keys)
+                string[] keys2 = Freq.Keys.ToArray();
+                foreach (string key in keys2)
                 {
                     if (Regex.IsMatch(key, ".*[A-Za-z].*"))
                     {
-                        n_words[key.Length - 1] -= freq[key];
-                        freq.Remove(key);
+                        N_Words[key.Length - 1] -= Freq[key];
+                        Freq.Remove(key);
                     }
                 }
             }

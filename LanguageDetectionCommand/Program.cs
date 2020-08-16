@@ -5,7 +5,8 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Text.Json;
 using LanguageDetection.Utils;
-
+using LanguageDetection;
+using System.Linq;
 
 namespace LanguageDetectionCommand
 {
@@ -120,7 +121,7 @@ namespace LanguageDetectionCommand
          */
         private bool LoadProfile()
         {
-            string profileDirectory = Get("directory") + "/";
+            string profileDirectory = Get("directory");
             try
             {
                 DetectorFactory.LoadProfile(profileDirectory);
@@ -268,7 +269,8 @@ namespace LanguageDetectionCommand
                     Detector detector = DetectorFactory.Create(GetDouble("alpha", DEFAULT_ALPHA));
                     if (HasOpt("--debug")) detector.SetVerbose();
                     detector.Append(strm);
-                    Console.WriteLine(filename + ":" + detector.GetProbabilities());
+                    var probs = string.Join(" ", detector.GetProbabilities().Select((lang) => lang.ToString()));
+                    Console.WriteLine("{0}: {1}", filename, probs);
                 }
                 catch (IOException e)
                 {
@@ -286,7 +288,6 @@ namespace LanguageDetectionCommand
                     }
                     catch (IOException e) { }
                 }
-
             }
         }
 

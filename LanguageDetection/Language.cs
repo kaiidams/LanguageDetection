@@ -1,20 +1,28 @@
-/**
- * {@link Language} is to store the detected language.
- * {@link Detector#getProbabilities()} returns an {@link List} of {@link Language}s.
- *  
- * @see Detector#getProbabilities()
- * @author Nakatani Shuyo
- *
- */
-public class Language {
-    public string lang;
-    public double prob;
-    public Language(string lang, double prob) {
-        this.lang = lang;
-        this.prob = prob;
-    }
-    public override string ToString() {
-        if (lang==null) return "";
-        return lang + ":" + prob;
+namespace LanguageDetection
+{
+    /**
+     * {@link Language} is to store the detected language.
+     * {@link Detector#getProbabilities()} returns an {@link List} of {@link Language}s.
+     *  
+     * @see Detector#getProbabilities()
+     * @author Nakatani Shuyo
+     *
+     */
+    public struct Language
+    {
+        public string Lang { get; set; }
+        public double Prob { get; set; }
+
+        public Language(string lang, double prob)
+        {
+            Lang = lang;
+            Prob = prob;
+        }
+
+        public override string ToString()
+        {
+            if (Lang == null) return "";
+            return string.Format("{0}:{1:F4}", Lang, Prob);
+        }
     }
 }

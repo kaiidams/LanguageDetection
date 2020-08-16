@@ -1,35 +1,33 @@
-
-
-
 using System;
-/**
-* @author Nakatani Shuyo
-*/
-public enum ErrorCode {
-    NoTextError, FormatError, FileLoadError, DuplicateLangError, NeedLoadProfileError, CantDetectError, CantOpenTrainData, TrainDataFormatError, InitParamError
-}
 
-/**
- * @author Nakatani Shuyo
- *
- */
-public class LangDetectException : Exception {
-    private const long serialVersionUID = 1L;
-    private ErrorCode code;
-    
-
+namespace LanguageDetection
+{
     /**
-     * @param code
-     * @param message
-     */
-    public LangDetectException(ErrorCode code, string message) : base(message) {
-        this.code = code;
+    * @author Nakatani Shuyo
+*/
+    public enum ErrorCode
+    {
+        NoTextError, FormatError, FileLoadError, DuplicateLangError, NeedLoadProfileError, CantDetectError, CantOpenTrainData, TrainDataFormatError, InitParamError
     }
 
     /**
-     * @return the error code
+     * @author Nakatani Shuyo
+     *
      */
-    public ErrorCode getCode() {
-        return code;
+    public class LangDetectException : Exception
+    {
+        /**
+         * @param code
+         * @param message
+         */
+        public LangDetectException(ErrorCode code, string message) : base(message)
+        {
+            this.Code = code;
+        }
+
+        /**
+         * @return the error code
+         */
+        public ErrorCode Code { get; }
     }
 }
