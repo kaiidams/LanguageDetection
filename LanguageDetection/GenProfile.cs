@@ -98,34 +98,26 @@ namespace LanguageDetection
 
             LangProfile profile = new LangProfile(lang);
 
-            StreamReader strm = null;
             try
             {
-                strm = new StreamReader(File.OpenRead(file));
-
-                int count = 0;
-                while (!strm.EndOfStream)
+                using (var strm = new StreamReader(File.OpenRead(file)))
                 {
-                    string line = strm.ReadLine();
-                    profile.Update(line);
-                    ++count;
+                    int count = 0;
+                    string line;
+                    while ((line = strm.ReadLine()) != null)
+                    {
+                        profile.Update(line);
+                        ++count;
+                    }
+
+                    Console.WriteLine(lang + ":" + count);
                 }
-
-                Console.WriteLine(lang + ":" + count);
-
             }
-            catch (IOException e)
+            catch (IOException)
             {
                 throw new LangDetectException(ErrorCode.CantOpenTrainData, "Can't open training database file '" + file + "'");
             }
-            finally
-            {
-                try
-                {
-                    if (strm != null) strm.Close();
-                }
-                catch (IOException e) { }
-            }
+
             return profile;
         }
     }

@@ -119,9 +119,18 @@ namespace LanguageDetectionCommand
             string profileDirectory = Get("directory");
             try
             {
-                DetectorFactory.LoadProfile(profileDirectory);
+                if (profileDirectory != null)
+                {
+                    DetectorFactory.LoadProfile(profileDirectory);
+                }
+                else
+                {
+                    DetectorFactory.LoadProfile();
+                }
+
                 long? seed = GetLong("seed");
                 if (seed != null) DetectorFactory.SetSeed((int)seed);
+
                 return false;
             }
             catch (LangDetectException e)
@@ -380,7 +389,7 @@ namespace LanguageDetectionCommand
         public static void Main(string[] args)
         {
             Program command = new Program();
-            command.AddOpt("-d", "directory", "./");
+            command.AddOpt("-d", "directory", null);
             command.AddOpt("-a", "alpha", "" + DEFAULT_ALPHA);
             command.AddOpt("-s", "seed", null);
             command.AddOpt("-l", "lang", null);

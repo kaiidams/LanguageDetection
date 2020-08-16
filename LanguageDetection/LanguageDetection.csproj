@@ -1,7 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>BrokenEgg.LanguageDetection</PackageId>
+    <Version>0.0.1</Version>
+    <Authors>Katsuya Iida</Authors>
+    <Company>BrokenEgg</Company>
+    <Description>Language Detection is a natural language detection library implemented in pure C# ported from https://github.com/shuyo/language-detection.</Description>
+    <PackageProjectUrl>https://github.com/brokenegg/LanguageDetection</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

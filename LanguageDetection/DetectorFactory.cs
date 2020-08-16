@@ -85,7 +85,6 @@ namespace LanguageDetection
             {
                 try
                 {
-
                     LangProfile profile = JsonSerializer.Deserialize<LangProfile>(json);
                     AddProfile(profile, index, langsize);
                     ++index;
@@ -95,6 +94,17 @@ namespace LanguageDetection
                     throw new LangDetectException(ErrorCode.FormatError, "profile format error");
                 }
             }
+        }
+
+        /// <summary>
+        /// Load profiles from the default directory.
+        /// </summary>
+        public static void LoadProfile()
+        {
+            string assemplyPath = typeof(DetectorFactory).Assembly.Location;
+            string assemplyDirectory = Path.GetDirectoryName(assemplyPath);
+            string profileDirectory = Path.Combine(assemplyDirectory, "profiles");
+            LoadProfile(profileDirectory);
         }
 
         /// <summary>
