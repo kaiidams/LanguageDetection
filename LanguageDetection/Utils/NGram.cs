@@ -16,7 +16,8 @@ namespace LanguageDetection.Utils
         public const int N_GRAM = 3;
         public static Dictionary<char, char> cjk_map;
 
-        private StringBuilder grams_;
+        private readonly char[] grams_;
+        private int gramsLength;
         private bool capitalword_;
 
         /**
@@ -24,7 +25,9 @@ namespace LanguageDetection.Utils
          */
         public NGram()
         {
-            grams_ = new StringBuilder(" ");
+            grams_ = new char[N_GRAM];
+            grams_[0] = ' ';
+            gramsLength = 1;
             capitalword_ = false;
         }
 
@@ -35,19 +38,23 @@ namespace LanguageDetection.Utils
         public void AddChar(char ch)
         {
             ch = Normalize(ch);
-            char lastchar = grams_[grams_.Length - 1];
+            char lastchar = grams_[gramsLength - 1];
             if (lastchar == ' ')
             {
-                grams_ = new StringBuilder(" ");
+                grams_[0] = ' ';
+                gramsLength = 1;
                 capitalword_ = false;
                 if (ch == ' ') return;
             }
-            else if (grams_.Length >= N_GRAM)
+            else if (gramsLength >= N_GRAM)
             {
-                // TODO: grams_.deleteCharAt(0);
-                grams_.ToString();
+                for (int i = 0; i < N_GRAM - 1; i++)
+                {
+                    grams_[i] = grams_[i + 1];
+                    gramsLength = N_GRAM - 1;
+                }
             }
-            grams_.Append(ch);
+            grams_[gramsLength++] = ch;
 
             if (char.IsUpper(ch))
             {
@@ -69,7 +76,7 @@ namespace LanguageDetection.Utils
             get
             {
                 if (capitalword_) return null;
-                int len = grams_.Length;
+                int len = gramsLength;
                 if (n < 1 || n > 3 || len < n) return null;
                 if (n == 1)
                 {
@@ -79,7 +86,7 @@ namespace LanguageDetection.Utils
                 }
                 else
                 {
-                    return ""; // TODO grams_.SubString(len - n, len);
+                    return new string(grams_, len - n, n);
                 }
             }
         }
@@ -159,7 +166,7 @@ namespace LanguageDetection.Utils
             {
                 int alphabet = TO_NORMALIZE_VI_CHARS.IndexOf(m.Groups[1].Value);
                 int dmark = DMARK_CLASS.IndexOf(m.Groups[2].Value); // Diacritical Mark
-                // TODO: m.appendReplacement(buf, NORMALIZED_VI_CHARS[dmark].Substring(alphabet, alphabet + 1));
+                // TODO: m.appendReplacement(buf, NORMALIZED_VI_CHARS[dmark].Substring(alphabet, 1));
             }
             if (buf.Length == 0)
                 return text;
