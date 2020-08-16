@@ -3,32 +3,26 @@ using NUnit.Framework;
 
 namespace LanguageDetectionTest.Utils
 {
-    /**
-    * 
-    * @author Nakatani Shuyo
-    *
-    */
+    /// <summary>
+    /// </summary>
     public class NGramTest
     {
-        /**
-         * @throws java.lang.Exception
-         */
+        /// <summary>
+        /// <exception>java.lang.Exception</exception>
         [SetUp]
         public void setUp()
         {
         }
 
-        /**
-         * @throws java.lang.Exception
-         */
+        /// <summary>
+        /// <exception>java.lang.Exception</exception>
         [TearDown]
         public void tearDown()
         {
         }
 
-        /**
-         * Test method for constants
-         */
+        /// <summary>
+        /// Test method for constants
         [Test]
         public void testConstants()
         {
@@ -36,9 +30,8 @@ namespace LanguageDetectionTest.Utils
             Assert.AreEqual(NGram.N_GRAM, 3);
         }
 
-        /**
-         * Test method for {@link NGram#normalize(char)} with Latin characters
-         */
+        /// <summary>
+        /// Test method for {@link NGram#normalize(char)} with Latin characters
         [Test]
         public void testNormalizeWithLatin()
         {
@@ -60,9 +53,8 @@ namespace LanguageDetectionTest.Utils
             Assert.AreEqual(NGram.Normalize('\u00a1'), '\u00a1');
         }
 
-        /**
-         * Test method for {@link NGram#normalize(char)} with CJK Kanji characters
-         */
+        /// <summary>
+        /// Test method for {@link NGram#normalize(char)} with CJK Kanji characters
         [Test]
         public void testNormalizeWithCJKKanji()
         {
@@ -93,9 +85,8 @@ namespace LanguageDetectionTest.Utils
             Assert.AreEqual(NGram.Normalize('\u4E30'), '\u4E30');
         }
 
-        /**
-         * Test method for {@link NGram#normalize(char)} for Romanian characters
-         */
+        /// <summary>
+        /// Test method for {@link NGram#normalize(char)} for Romanian characters
         [Test]
         public void testNormalizeForRomanian()
         {
@@ -105,9 +96,8 @@ namespace LanguageDetectionTest.Utils
             Assert.AreEqual(NGram.Normalize('\u021b'), '\u0163');
         }
 
-        /**
-         * Test method for {@link NGram#get(int)} and {@link NGram#addChar(char)}
-         */
+        /// <summary>
+        /// Test method for {@link NGram#get(int)} and {@link NGram#addChar(char)}
         [Test]
         public void testNGram()
         {
@@ -162,9 +152,8 @@ namespace LanguageDetectionTest.Utils
 
         }
 
-        /**
-         * Test method for {@link NGram#get(int)} and {@link NGram#addChar(char)}
-         */
+        /// <summary>
+        /// Test method for {@link NGram#get(int)} and {@link NGram#addChar(char)}
         [Test]
         public void testNGram3()
         {
@@ -187,9 +176,9 @@ namespace LanguageDetectionTest.Utils
 
         }
 
-        /**
-         * Test method for {@link NGram#get(int)} and {@link NGram#addChar(char)}
-         */
+        /// <summary>
+        /// Test method for {@link NGram#get(int)} and {@link NGram#addChar(char)}
+
         [Test]
         public void testNormalizeVietnamese()
         {

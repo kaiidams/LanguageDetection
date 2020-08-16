@@ -6,23 +6,20 @@ using System.Xml;
 
 namespace LanguageDetection
 {
-    /**
-    * Load Wikipedia's abstract XML as corpus and
-    * generate its language profile in JSON format.
-    * 
-    * @author Nakatani Shuyo
-    * 
-    */
+    /// <summary>
+    /// Load Wikipedia's abstract XML as corpus and
+    /// generate its language profile in JSON format.
+    /// </summary>
     public class GenProfile
     {
 
-        /**
-         * Load Wikipedia abstract database file and generate its language profile
-         * @param lang target language name
-         * @param file target database file path
-         * @return Language profile instance
-         * @throws LangDetectException 
-         */
+        /// <summary>
+        /// Load Wikipedia abstract database file and generate its language profile
+        /// </summary>
+        /// <param name="lang">target language name</param>
+        /// <param name="file">target database file path</param>
+        /// <returns>Language profile instance</returns>
+        /// <exception>LangDetectException </exception>
         public static LangProfile LoadFromWikipediaAbstract(string lang, string file)
         {
 
@@ -88,13 +85,14 @@ namespace LanguageDetection
         }
 
 
-        /**
-         * Load text file with UTF-8 and generate its language profile
-         * @param lang target language name
-         * @param file target file path
-         * @return Language profile instance
-         * @throws LangDetectException 
-         */
+        /// <summary>
+        /// Load text file with UTF-8 and generate its language profile
+        /// </summary>
+        /// <param name="lang">target language name</param>
+        /// <param name="file">target file path</param>
+        /// <returns>Language profile instance</returns>
+        /// <exception>LangDetectException </exception>
+
         public static LangProfile LoadFromText(string lang, string file)
         {
 

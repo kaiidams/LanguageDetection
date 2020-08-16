@@ -3,33 +3,27 @@ using NUnit.Framework;
 
 namespace LanguageDetectionTest.Utils
 {
-    /**
-    * 
-    * @author Nakatani Shuyo
-    *
-    */
+    /// <summary>
+    /// </summary>
     public class LangProfileTest
     {
 
-        /**
-         * @throws java.lang.Exception
-         */
+        /// <summary>
+        /// <exception>java.lang.Exception</exception>
         [SetUp]
         public void setUp()
         {
         }
 
-        /**
-         * @throws java.lang.Exception
-         */
+        /// <summary>
+        /// <exception>java.lang.Exception</exception>
         [TearDown]
         public void tearDown()
         {
         }
 
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.util.LangProfile#LangProfile()}.
-         */
+        /// <summary>
+        /// Test method for {@link com.cybozu.labs.langdetect.util.LangProfile#LangProfile()}.
         [Test]
         public void testLangProfile()
         {
@@ -37,9 +31,8 @@ namespace LanguageDetectionTest.Utils
             Assert.AreEqual(profile.Name, null);
         }
 
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.util.LangProfile#LangProfile(java.lang.string)}.
-         */
+        /// <summary>
+        /// Test method for {@link com.cybozu.labs.langdetect.util.LangProfile#LangProfile(java.lang.string)}.
         [Test]
         public void testLangProfileStringInt()
         {
@@ -47,9 +40,8 @@ namespace LanguageDetectionTest.Utils
             Assert.AreEqual(profile.Name, "en");
         }
 
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.util.LangProfile#add(java.lang.string)}.
-         */
+        /// <summary>
+        /// Test method for {@link com.cybozu.labs.langdetect.util.LangProfile#add(java.lang.string)}.
         [Test]
         public void testAdd()
         {
@@ -62,9 +54,8 @@ namespace LanguageDetectionTest.Utils
         }
 
 
-        /**
-         * Illegal call test for {@link LangProfile#add(string)}
-         */
+        /// <summary>
+        /// Illegal call test for {@link LangProfile#add(string)}
         [Test]
         public void testAddIllegally1()
         {
@@ -73,9 +64,8 @@ namespace LanguageDetectionTest.Utils
             Assert.AreEqual(profile.Freq["a"], null); // ignored
         }
 
-        /**
-         * Illegal call test for {@link LangProfile#add(string)}
-         */
+        /// <summary>
+        /// Illegal call test for {@link LangProfile#add(string)}
         [Test]
         public void testAddIllegally2()
         {
@@ -89,9 +79,8 @@ namespace LanguageDetectionTest.Utils
 
         }
 
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.util.LangProfile#omitLessFreq()}.
-         */
+        /// <summary>
+        /// Test method for {@link com.cybozu.labs.langdetect.util.LangProfile#omitLessFreq()}.
         [Test]
         public void testOmitLessFreq()
         {
@@ -112,9 +101,9 @@ namespace LanguageDetectionTest.Utils
             Assert.AreEqual(profile.Freq["\u3050"], null); // omitted
         }
 
-        /**
-         * Illegal call test for {@link com.cybozu.labs.langdetect.util.LangProfile#omitLessFreq()}.
-         */
+        /// <summary>
+        /// Illegal call test for {@link com.cybozu.labs.langdetect.util.LangProfile#omitLessFreq()}.
+
         [Test]
         public void testOmitLessFreqIllegally()
         {
@@ -123,3 +112,4 @@ namespace LanguageDetectionTest.Utils
         }
     }
 }
+

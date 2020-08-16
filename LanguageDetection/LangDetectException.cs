@@ -2,32 +2,29 @@ using System;
 
 namespace LanguageDetection
 {
-    /**
-    * @author Nakatani Shuyo
-*/
+    /// <summary>
+    /// </summary>
     public enum ErrorCode
     {
         NoTextError, FormatError, FileLoadError, DuplicateLangError, NeedLoadProfileError, CantDetectError, CantOpenTrainData, TrainDataFormatError, InitParamError
     }
 
-    /**
-     * @author Nakatani Shuyo
-     *
-     */
+    /// <summary>
+    /// </summary>
     public class LangDetectException : Exception
     {
-        /**
-         * @param code
-         * @param message
-         */
+        /// <summary>
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="message"></param>
         public LangDetectException(ErrorCode code, string message) : base(message)
         {
             this.Code = code;
         }
 
-        /**
-         * @return the error code
-         */
+        /// <summary>
+        /// </summary>
+        /// <returns>the error code</returns>
         public ErrorCode Code { get; }
     }
 }
