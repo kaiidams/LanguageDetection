@@ -5,12 +5,10 @@ using System.Text.RegularExpressions;
 
 namespace LanguageDetection.Utils
 {
-    /**
-    * {@link LangProfile} is a Language Profile Class.
-    * Users don't use this class directly.
-    * 
-    * @author Nakatani Shuyo
-    */
+    /// <summary>
+    /// {@link LangProfile} is a Language Profile Class.
+    /// Users don't use this class directly.
+    /// </summary>
     public class LangProfile
     {
         private const int MINIMUM_FREQ = 2;
@@ -25,17 +23,17 @@ namespace LanguageDetection.Utils
         [JsonPropertyName("n_words")]
         public int[] N_Words { get; set; }
 
-        /**
-         * Constructor for JSONIC 
-         */
+        /// <summary>
+        /// Constructor for JSONIC
+        /// </summary>
         public LangProfile()
         {
         }
 
-        /**
-         * Normal Constructor
-         * @param name language name
-         */
+        /// <summary>
+        /// Normal Constructor
+        /// </summary>
+        /// <param name="name">language name</param>
         public LangProfile(string name)
         {
             Name = name;
@@ -43,10 +41,10 @@ namespace LanguageDetection.Utils
             N_Words = new int[NGram.N_GRAM];
         }
 
-        /**
-         * Add n-gram to profile
-         * @param gram
-         */
+        /// <summary>
+        /// Add n-gram to profile
+        /// </summary>
+        /// <param name="gram"></param>
         public void Add(string gram)
         {
             if (Name == null || gram == null) return;   // Illegal
@@ -63,9 +61,9 @@ namespace LanguageDetection.Utils
             }
         }
 
-        /**
-         * Eliminate below less frequency n-grams and noise Latin alphabets
-         */
+        /// <summary>
+        /// Eliminate below less frequency n-grams and noise Latin alphabets
+        /// </summary>
         public void OmitLessFreq()
         {
             if (Name == null) return;   // Illegal
@@ -106,11 +104,12 @@ namespace LanguageDetection.Utils
             }
         }
 
-        /**
-         * Update the language profile with (fragmented) text.
-         * Extract n-grams from text and add their frequency into the profile.
-         * @param text (fragmented) text to extract n-grams
-         */
+        /// <summary>
+        /// Update the language profile with (fragmented) text.
+        /// Extract n-grams from text and add their frequency into the profile.
+        /// </summary>
+        /// <param name="text">(fragmented) text to extract n-grams</param>
+
         public void Update(string text)
         {
             if (text == null) return;
@@ -127,3 +126,4 @@ namespace LanguageDetection.Utils
         }
     }
 }
+

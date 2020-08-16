@@ -10,31 +10,26 @@ using System.Linq;
 
 namespace LanguageDetectionCommand
 {
-    /**
-    * 
-    * LangDetect Command Line Interface
-    * <p>
-    * This is a command line interface of Language Detection Library "LandDetect".
-    * 
-    * 
-    * @author Nakatani Shuyo
-    *
-    */
+    /// <summary>
+    /// LangDetect Command Line Interface
+    /// <p>
+    /// This is a command line interface of Language Detection Library "LandDetect".
+    /// </summary>
     public class Program
     {
-        /** smoothing default parameter (ELE) */
+        /// <summary>smoothing default parameter (ELE)</summary> 
         private const double DEFAULT_ALPHA = 0.5;
 
-        /** for Command line easy parser */
+        /// <summary>for Command line easy parser</summary>
         private Dictionary<string, string> opt_with_value = new Dictionary<string, string>();
         private Dictionary<string, string> values = new Dictionary<string, string>();
         private HashSet<string> opt_without_value = new HashSet<string>();
         private List<string> arglist = new List<string>();
 
-        /**
-         * Command line easy parser
-         * @param args command line arguments
-         */
+        /// <summary>
+        /// Command line easy parser
+        /// </summary>
+        /// <param name="args">command line arguments</param>
         private void Parse(string[] args)
         {
             for (int i = 0; i < args.Length; ++i)
@@ -98,12 +93,12 @@ namespace LanguageDetectionCommand
         }
 
 
-        /**
-         * File search (easy glob)
-         * @param directory directory path
-         * @param pattern   searching file pattern with regular representation
-         * @return matched file
-         */
+        /// <summary>
+        /// File search (easy glob)
+        /// </summary>
+        /// <param name="directory">directory path</param>
+        /// <param name="pattern">searching file pattern with regular representation</param>
+        /// <returns>matched file</returns>
         private string SearchFile(string directory, string pattern)
         {
             var rx = new Regex(pattern);
@@ -115,10 +110,10 @@ namespace LanguageDetectionCommand
         }
 
 
-        /**
-         * load profiles
-         * @return false if load success
-         */
+        /// <summary>
+        /// load profiles
+        /// </summary>
+        /// <returns>false if load success</returns>
         private bool LoadProfile()
         {
             string profileDirectory = Get("directory");
@@ -136,14 +131,12 @@ namespace LanguageDetectionCommand
             }
         }
 
-        /**
-         * Generate Language Profile from Wikipedia Abstract Database File
-         * 
-         * <pre>
-         * usage: --genprofile -d [abstracts directory] [language names]
-         * </pre>
-         * 
-         */
+        /// <summary>
+        /// Generate Language Profile from Wikipedia Abstract Database File
+        /// <pre>
+        /// usage: --genprofile -d [abstracts directory] [language names]
+        /// </pre>
+        /// </summary>
         public void GenerateProfile()
         {
             string directory = Get("directory");
@@ -188,14 +181,12 @@ namespace LanguageDetectionCommand
             }
         }
 
-        /**
-         * Generate Language Profile from Text File
-         * 
-         * <pre>
-         * usage: --genprofile-text -l [language code] [text file path]
-         * </pre>
-         * 
-         */
+        /// <summary>
+        /// Generate Language Profile from Text File
+        /// <pre>
+        /// usage: --genprofile-text -l [language code] [text file path]
+        /// </pre>
+        /// </summary>
         private void generateProfileFromText()
         {
             if (arglist.Count != 1)
@@ -248,14 +239,11 @@ namespace LanguageDetectionCommand
             }
         }
 
-        /**
-         * Language detection test for each file (--detectlang option)
-         * 
-         * <pre>
-         * usage: --detectlang -d [profile directory] -a [alpha] -s [seed] [test file(s)]
-         * </pre>
-         * 
-         */
+        /// <summary>
+        /// Language detection test for each file (--detectlang option)
+        /// <pre>
+        /// usage: --detectlang -d [profile directory] -a [alpha] -s [seed] [test file(s)]
+        /// </pre>
         public void DetectLang()
         {
             if (LoadProfile()) return;
@@ -291,19 +279,15 @@ namespace LanguageDetectionCommand
             }
         }
 
-        /**
-         * Batch Test of Language Detection (--batchtest option)
-         * 
-         * <pre>
-         * usage: --batchtest -d [profile directory] -a [alpha] -s [seed] [test data(s)]
-         * </pre>
-         * 
-         * The format of test data(s):
-         * <pre>
-         *   [correct language name]\t[text body for test]\n
-         * </pre>
-         *  
-         */
+        /// <summary>
+        /// Batch Test of Language Detection (--batchtest option)
+        /// <pre>
+        /// usage: --batchtest -d [profile directory] -a [alpha] -s [seed] [test data(s)]
+        /// </pre>
+        /// The format of test data(s):
+        /// <pre>
+        ///   [correct language name]\t[text body for test]\n
+        /// </pre>
         public void BatchTest()
         {
             if (LoadProfile()) return;
@@ -389,10 +373,10 @@ namespace LanguageDetectionCommand
 
         }
 
-        /**
-         * Command Line Interface
-         * @param args command line arguments
-         */
+        /// <summary>
+        /// Command Line Interface
+        /// </summary>
+        /// <param name="args">command line arguments</param>
         public static void Main(string[] args)
         {
             Program command = new Program();
@@ -421,3 +405,4 @@ namespace LanguageDetectionCommand
         }
     }
 }
+

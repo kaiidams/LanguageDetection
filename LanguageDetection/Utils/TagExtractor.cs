@@ -2,21 +2,16 @@ using System.Text;
 
 namespace LanguageDetection.Utils
 {
-    /**
-    * {@link TagExtractor} is a class which extracts inner texts of specified tag.
-    * Users don't use this class directly.
-    * @author Nakatani Shuyo
-    */
+    /// <summary>
+    /// {@link TagExtractor} is a class which extracts inner texts of specified tag.
+    /// Users don't use this class directly.
+    /// </summary>
     public class TagExtractor
     {
-        /* package scope */
-        public string target_;
-        /* package scope */
-        public int threshold_;
-        /* package scope */
-        public StringBuilder buf_;
-        /* package scope */
-        public string tag_;
+        public /* package scope */ string target_;        
+        public /* package scope */ int threshold_;
+        public /* package scope */ StringBuilder buf_;
+        public /* package scope */ string tag_;
         private int count_;
 
         public TagExtractor(string tag, int threshold)
@@ -59,4 +54,5 @@ namespace LanguageDetection.Utils
         }
     }
 }
+
 

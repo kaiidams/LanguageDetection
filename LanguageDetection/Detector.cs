@@ -8,48 +8,43 @@ using System.Text.Unicode;
 
 namespace LanguageDetection
 {
-    /**
-    * {@link Detector} class is to detect language from specified text. 
-    * Its instance is able to be constructed via the factory class {@link DetectorFactory}.
-    * <p>
-    * After appending a target text to the {@link Detector} instance with {@link #append(Reader)} or {@link #append(string)},
-    * the detector provides the language detection results for target text via {@link #detect()} or {@link #getProbabilities()}.
-    * {@link #detect()} method returns a single language name which has the highest probability.
-    * {@link #getProbabilities()} methods returns a list of multiple languages and their probabilities.
-    * <p>  
-    * The detector has some parameters for language detection.
-    * See {@link #setAlpha(double)}, {@link #setMaxTextLength(int)} and {@link #setPriorMap(Dictionary)}.
-    * 
-    * <pre>
-    * import java.util.List;
-    * import com.cybozu.labs.langdetect.Detector;
-    * import com.cybozu.labs.langdetect.DetectorFactory;
-    * import com.cybozu.labs.langdetect.Language;
-    * 
-    * class LangDetectSample {
-    *     public void init(string profileDirectory) {
-    *         DetectorFactory.loadProfile(profileDirectory);
-    *     }
-    *     public string detect(string text) {
-    *         Detector detector = DetectorFactory.create();
-    *         detector.Append(text);
-    *         return detector.detect();
-    *     }
-    *     public List<Language> detectLangs(string text) {
-    *         Detector detector = DetectorFactory.create();
-    *         detector.Append(text);
-    *         return detector.GetProbabilities();
-    *     }
-    * }
-    * </pre>
-    * 
-    * <ul>
-    * <li>4x faster improvement based on Elmer Garduno's code. Thanks!</li>
-    * </ul>
-    * 
-    * @author Nakatani Shuyo
-    * @see DetectorFactory
-*/
+    /// <summary>
+    /// {@link Detector} class is to detect language from specified text. 
+    /// Its instance is able to be constructed via the factory class {@link DetectorFactory}.
+    /// <p>
+    /// After appending a target text to the {@link Detector} instance with {@link #append(Reader)} or {@link #append(string)},
+    /// the detector provides the language detection results for target text via {@link #detect()} or {@link #getProbabilities()}.
+    /// {@link #detect()} method returns a single language name which has the highest probability.
+    /// {@link #getProbabilities()} methods returns a list of multiple languages and their probabilities.
+    /// <p>  
+    /// The detector has some parameters for language detection.
+    /// See {@link #setAlpha(double)}, {@link #setMaxTextLength(int)} and {@link #setPriorMap(Dictionary)}.
+    /// <pre>
+    /// import java.util.List;
+    /// import com.cybozu.labs.langdetect.Detector;
+    /// import com.cybozu.labs.langdetect.DetectorFactory;
+    /// import com.cybozu.labs.langdetect.Language;
+    /// class LangDetectSample {
+    ///     public void init(string profileDirectory) {
+    ///         DetectorFactory.loadProfile(profileDirectory);
+    ///     }
+    ///     public string detect(string text) {
+    ///         Detector detector = DetectorFactory.create();
+    ///         detector.Append(text);
+    ///         return detector.detect();
+    ///     }
+    ///     public List<Language> detectLangs(string text) {
+    ///         Detector detector = DetectorFactory.create();
+    ///         detector.Append(text);
+    ///         return detector.GetProbabilities();
+    ///     }
+    /// }
+    /// </pre>
+    /// <ul>
+    /// <li>4x faster improvement based on Elmer Garduno's code. Thanks!</li>
+    /// </ul>
+    /// </summary>
+    /// <see>DetectorFactory</see>
     public class Detector
     {
         private const double ALPHA_DEFAULT = 0.5;
@@ -77,11 +72,11 @@ namespace LanguageDetection
         private bool verbose = false;
         private int? seed = null;
 
-        /**
-         * Constructor.
-         * Detector instance can be constructed via {@link DetectorFactory#create()}.
-         * @param factory {@link DetectorFactory} instance (only DetectorFactory inside)
-         */
+        /// <summary>
+        /// Constructor.
+        /// Detector instance can be constructed via {@link DetectorFactory#create()}.
+        /// </summary>
+        /// <param name="factory">{@link DetectorFactory} instance (only DetectorFactory inside)</param>
         public Detector(DetectorFactory factory)
         {
             this.wordLangProbMap = factory.wordLangProbMap;
@@ -90,29 +85,28 @@ namespace LanguageDetection
             this.seed = factory.seed;
         }
 
-        /**
-         * Set Verbose Mode(use for debug).
-         */
+        /// <summary>
+        /// Set Verbose Mode(use for debug).
         public void SetVerbose()
         {
             this.verbose = true;
         }
 
-        /**
-         * Set smoothing parameter.
-         * The default value is 0.5(i.e. Expected Likelihood Estimate).
-         * @param alpha the smoothing parameter
-         */
+        /// <summary>
+        /// Set smoothing parameter.
+        /// The default value is 0.5(i.e. Expected Likelihood Estimate).
+        /// </summary>
+        /// <param name="alpha">the smoothing parameter</param>
         public void SetAlpha(double alpha)
         {
             this.alpha = alpha;
         }
 
-        /**
-         * Set prior information about language probabilities.
-         * @param priorMap the priorMap to set
-         * @throws LangDetectException 
-         */
+        /// <summary>
+        /// Set prior information about language probabilities.
+        /// </summary>
+        /// <param name="priorMap">the priorMap to set</param>
+        /// <exception>LangDetectException </exception>
         public void SetPriorMap(Dictionary<string, double> priorMap)
         {
             this.priorMap = new double[langlist.Count];
@@ -132,26 +126,25 @@ namespace LanguageDetection
             for (int i = 0; i < this.priorMap.Length; ++i) this.priorMap[i] /= sump;
         }
 
-        /**
-         * Specify max size of target text to use for language detection.
-         * The default value is 10000(10KB).
-         * @param max_text_length the max_text_length to set
-         */
+        /// <summary>
+        /// Specify max size of target text to use for language detection.
+        /// The default value is 10000(10KB).
+        /// </summary>
+        /// <param name="max_text_length">the max_text_length to set</param>
         public void SetMaxTextLength(int max_text_length)
         {
             this.max_text_length = max_text_length;
         }
 
 
-        /**
-         * Append the target text for language detection.
-         * This method read the text from specified input reader.
-         * If the total size of target text exceeds the limit size specified by {@link Detector#setMaxTextLength(int)},
-         * the rest is cut down.
-         * 
-         * @param reader the input reader (BufferedReader as usual)
-         * @throws IOException Can't read the reader.
-         */
+        /// <summary>
+        /// Append the target text for language detection.
+        /// This method read the text from specified input reader.
+        /// If the total size of target text exceeds the limit size specified by {@link Detector#setMaxTextLength(int)},
+        /// the rest is cut down.
+        /// </summary>
+        /// <param name="reader">the input reader (BufferedReader as usual)</param>
+        /// <exception>IOException Can't read the reader.</exception>
         public void Append(StreamReader reader)
         {
             char[] buf = new char[max_text_length / 2];
@@ -162,13 +155,12 @@ namespace LanguageDetection
             }
         }
 
-        /**
-         * Append the target text for language detection.
-         * If the total size of target text exceeds the limit size specified by {@link Detector#setMaxTextLength(int)},
-         * the rest is cut down.
-         * 
-         * @param text the target text to append
-         */
+        /// <summary>
+        /// Append the target text for language detection.
+        /// If the total size of target text exceeds the limit size specified by {@link Detector#setMaxTextLength(int)},
+        /// the rest is cut down.
+        /// </summary>
+        /// <param name="text">the target text to append</param>
         public void Append(string text)
         {
             text = URL_REGEX.Replace(text, " ");
@@ -183,10 +175,9 @@ namespace LanguageDetection
             }
         }
 
-        /**
-         * Cleaning text to detect
-         * (eliminate URL, e-mail address and Latin sentence if it is not written in Latin alphabet)
-         */
+        /// <summary>
+        /// Cleaning text to detect
+        /// (eliminate URL, e-mail address and Latin sentence if it is not written in Latin alphabet)
         private void CleaningText()
         {
             int latinCount = 0, nonLatinCount = 0;
@@ -215,12 +206,12 @@ namespace LanguageDetection
 
         }
 
-        /**
-         * Detect language of the target text and return the language name which has the highest probability.
-         * @return detected language name which has most probability.
-         * @throws LangDetectException 
-         *  code = ErrorCode.CantDetectError : Can't detect because of no valid features in text
-         */
+        /// <summary>
+        /// Detect language of the target text and return the language name which has the highest probability.
+        /// </summary>
+        /// <returns>detected language name which has most probability.</returns>
+        /// <exception>LangDetectException </exception>
+        ///  code = ErrorCode.CantDetectError : Can't detect because of no valid features in text
         public string Detect()
         {
             List<Language> probabilities = GetProbabilities();
@@ -228,12 +219,14 @@ namespace LanguageDetection
             return UNKNOWN_LANG;
         }
 
-        /**
-         * Get language candidates which have high probabilities
-         * @return possible languages list (whose probabilities are over PROB_THRESHOLD, ordered by probabilities descendently
-         * @throws LangDetectException 
-         *  code = ErrorCode.CantDetectError : Can't detect because of no valid features in text
-         */
+        /// <summary>
+        /// Get language candidates which have high probabilities
+        /// <pre>
+        ///  code = ErrorCode.CantDetectError : Can't detect because of no valid features in text
+        /// </pre>
+        /// </summary>
+        /// <returns>possible languages list (whose probabilities are over PROB_THRESHOLD, ordered by probabilities descendently</returns>
+        /// <exception>LangDetectException </exception>
         public List<Language> GetProbabilities()
         {
             if (langprob == null) DetectBlock();
@@ -249,10 +242,8 @@ namespace LanguageDetection
             return Math.Cos(angle) * distance;
         }
 
-        /**
-         * @throws LangDetectException 
-         * 
-         */
+        /// <summary>
+        /// <exception>LangDetectException </exception>
         private void DetectBlock()
         {
             CleaningText();
@@ -283,11 +274,11 @@ namespace LanguageDetection
             }
         }
 
-        /**
-         * Initialize the map of language probabilities.
-         * If there is the specified prior map, use it as initial map.
-         * @return initialized map of language probabilities
-         */
+        /// <summary>
+        /// Initialize the map of language probabilities.
+        /// If there is the specified prior map, use it as initial map.
+        /// </summary>
+        /// <returns>initialized map of language probabilities</returns>
         private double[] InitProbability()
         {
             double[] prob = new double[langlist.Count];
@@ -302,10 +293,10 @@ namespace LanguageDetection
             return prob;
         }
 
-        /**
-         * Extract n-grams from target text
-         * @return n-grams list
-         */
+        /// <summary>
+        /// Extract n-grams from target text
+        /// </summary>
+        /// <returns>n-grams list</returns>
         private List<string> ExtractNGrams()
         {
             List<string> list = new List<string>();
@@ -322,10 +313,10 @@ namespace LanguageDetection
             return list;
         }
 
-        /**
-         * update language probabilities with N-gram string(N=1,2,3)
-         * @param word N-gram string
-         */
+        /// <summary>
+        /// update language probabilities with N-gram string(N=1,2,3)
+        /// </summary>
+        /// <param name="word">N-gram string</param>
         private bool UpdateLangProb(double[] prob, string word, double alpha)
         {
             if (word == null || !wordLangProbMap.ContainsKey(word)) return false;
@@ -356,10 +347,10 @@ namespace LanguageDetection
             return str;
         }
 
-        /**
-         * normalize probabilities and check convergence by the maximun probability
-         * @return maximum of probabilities
-         */
+        /// <summary>
+        /// normalize probabilities and check convergence by the maximun probability
+        /// </summary>
+        /// <returns>maximum of probabilities</returns>
         static private double NormalizeProb(double[] prob)
         {
             double maxp = 0, sump = 0;
@@ -373,10 +364,10 @@ namespace LanguageDetection
             return maxp;
         }
 
-        /**
-         * @param probabilities Dictionary
-         * @return lanugage candidates order by probabilities descendently
-         */
+        /// <summary>
+        /// </summary>
+        /// <param name="probabilities">Dictionary</param>
+        /// <returns>lanugage candidates order by probabilities descendently</returns>
         private List<Language> SortProbability(double[] prob)
         {
             List<Language> list = new List<Language>();
@@ -398,11 +389,12 @@ namespace LanguageDetection
             return list;
         }
 
-        /**
-         * unicode encoding (for verbose mode)
-         * @param word
-         * @return
-         */
+        /// <summary>
+        /// unicode encoding (for verbose mode)
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
+
         static private string UnicodeEncode(string word)
         {
             StringBuilder buf = new StringBuilder();
@@ -424,3 +416,4 @@ namespace LanguageDetection
         }
     }
 }
+

@@ -6,11 +6,9 @@ using System.Collections.Generic;
 
 namespace LanguageDetectionTest
 {
-    /**
-    * Unit test for {@link Detector} and {@link DetectorFactory}.
-    * @author Nakatani Shuyo
-    *
-    */
+    /// <summary>
+    /// Unit test for {@link Detector} and {@link DetectorFactory}.
+    /// </summary>
     public class DetectorTest
     {
 

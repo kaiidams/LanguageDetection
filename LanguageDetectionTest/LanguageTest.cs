@@ -3,16 +3,13 @@ using NUnit.Framework;
 
 namespace LanguageDetectionTest
 {
-    /**
-    * 
-    * @author Nakatani Shuyo
-    *
-    */
+    /// <summary>
+    /// </summary>
     public class LanguageTest
     {
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.Language#Language(java.lang.string, double)}.
-         */
+        /// <summary>
+        /// Test method for {@link com.cybozu.labs.langdetect.Language#Language(java.lang.string, double)}.
+        /// </summary>
         [Test]
         public void TestLanguage()
         {

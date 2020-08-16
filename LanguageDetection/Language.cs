@@ -1,13 +1,10 @@
 namespace LanguageDetection
 {
-    /**
-     * {@link Language} is to store the detected language.
-     * {@link Detector#getProbabilities()} returns an {@link List} of {@link Language}s.
-     *  
-     * @see Detector#getProbabilities()
-     * @author Nakatani Shuyo
-     *
-     */
+    /// <summary>
+    /// {@link Language} is to store the detected language.
+    /// {@link Detector#getProbabilities()} returns an {@link List} of {@link Language}s.
+    /// <see>Detector#getProbabilities()</see>
+    /// </summary>
     public struct Language
     {
         public string Lang { get; set; }

@@ -3,16 +3,13 @@ using NUnit.Framework;
 
 namespace LanguageDetectionTest.Utils
 {
-    /**
-    * 
-    * @author Nakatani Shuyo
-    *
-    */
+    /// <summary>
+    /// </summary>
     public class TagExtractorTest
     {
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#TagExtractor(java.lang.string, int)}.
-         */
+        /// <summary>
+        /// Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#TagExtractor(java.lang.string, int)}.
+        /// </summary>
         [Test]
         public void testTagExtractor()
         {
@@ -25,9 +22,9 @@ namespace LanguageDetectionTest.Utils
             Assert.AreEqual(extractor2.threshold_, 10);
         }
 
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#setTag(java.lang.string)}.
-         */
+        /// <summary>
+        /// Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#setTag(java.lang.string)}.
+        /// </summary>
         [Test]
         public void testSetTag()
         {
@@ -38,9 +35,9 @@ namespace LanguageDetectionTest.Utils
             Assert.AreEqual(extractor.tag_, null);
         }
 
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#add(java.lang.string)}.
-         */
+        /// <summary>
+        /// Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#add(java.lang.string)}.
+        /// </summary>
         [Test]
         public void testAdd()
         {
@@ -49,9 +46,9 @@ namespace LanguageDetectionTest.Utils
             extractor.Add(null);    // ignore
         }
 
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#closeTag(com.cybozu.labs.langdetect.util.LangProfile)}.
-         */
+        /// <summary>
+        /// Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#closeTag(com.cybozu.labs.langdetect.util.LangProfile)}.
+        /// </summary>
         [Test]
         public void testCloseTag()
         {
@@ -60,9 +57,9 @@ namespace LanguageDetectionTest.Utils
         }
 
 
-        /**
-         * Scenario Test of extracting &lt;abstract&gt; tag from Wikipedia database.
-         */
+        /// <summary>
+        /// Scenario Test of extracting &lt;abstract&gt; tag from Wikipedia database.
+        /// </summary>
         [Test]
         public void testNormalScenario()
         {
@@ -93,9 +90,9 @@ namespace LanguageDetectionTest.Utils
             Assert.AreEqual(extractor.Count(), 1);
         }
 
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#clear()}.
-         */
+        /// <summary>
+        /// Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#clear()}.
+        /// </summary>
         [Test]
         public void testClear()
         {
@@ -110,3 +107,4 @@ namespace LanguageDetectionTest.Utils
         }
     }
 }
+

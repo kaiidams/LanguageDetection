@@ -7,26 +7,20 @@ using LanguageDetection.Utils;
 
 namespace LanguageDetection
 {
-    /**
-    * Language Detector Factory Class
-    * 
-    * This class manages an initialization and constructions of {@link Detector}. 
-    * 
-    * Before using language detection library, 
-    * load profiles with {@link DetectorFactory#loadProfile(string)} method
-    * and set initialization parameters.
-    * 
-    * When the language detection,
-    * construct Detector instance via {@link DetectorFactory#create()}.
-    * See also {@link Detector}'s sample code.
-    * 
-    * <ul>
-    * <li>4x faster improvement based on Elmer Garduno's code. Thanks!</li>
-    * </ul>
-    * 
-    * @see Detector
-    * @author Nakatani Shuyo
-    */
+    /// <summary>
+    /// Language Detector Factory Class
+    /// This class manages an initialization and constructions of {@link Detector}. 
+    /// Before using language detection library, 
+    /// load profiles with {@link DetectorFactory#loadProfile(string)} method
+    /// and set initialization parameters.
+    /// When the language detection,
+    /// construct Detector instance via {@link DetectorFactory#create()}.
+    /// See also {@link Detector}'s sample code.
+    /// <ul>
+    /// <li>4x faster improvement based on Elmer Garduno's code. Thanks!</li>
+    /// </ul>
+    /// <see>Detector</see>
+    /// </summary>
     public class DetectorFactory
     {
         public Dictionary<string, double[]> wordLangProbMap;
@@ -39,14 +33,13 @@ namespace LanguageDetection
         }
         static private DetectorFactory instance_ = new DetectorFactory();
 
-        /**
-         * Load profiles from specified directory.
-         * This method must be called once before language detection.
-         *  
-         * @param profileDirectory profile directory path
-         * @throws LangDetectException  Can't open profiles(error code = {@link ErrorCode#FileLoadError})
-         *                              or profile's format is wrong (error code = {@link ErrorCode#FormatError})
-         */
+        /// <summary>
+        /// Load profiles from specified directory.
+        /// This method must be called once before language detection.
+        /// </summary>
+        /// <param name="profileDirectory">profile directory path</param>
+        /// <exception>LangDetectException  Can't open profiles(error code = {@link ErrorCode#FileLoadError})</exception>
+        ///                              or profile's format is wrong (error code = {@link ErrorCode#FormatError})
         public static void LoadProfile(string profileDirectory)
         {
             string[] listFiles = Directory.GetFiles(profileDirectory);
@@ -74,14 +67,13 @@ namespace LanguageDetection
             }
         }
 
-        /**
-         * Load profiles from specified directory.
-         * This method must be called once before language detection.
-         *  
-         * @param profileDirectory profile directory path
-         * @throws LangDetectException  Can't open profiles(error code = {@link ErrorCode#FileLoadError})
-         *                              or profile's format is wrong (error code = {@link ErrorCode#FormatError})
-         */
+        /// <summary>
+        /// Load profiles from specified directory.
+        /// This method must be called once before language detection.
+        /// </summary>
+        /// <param name="profileDirectory">profile directory path</param>
+        /// <exception>LangDetectException  Can't open profiles(error code = {@link ErrorCode#FileLoadError})</exception>
+        ///                              or profile's format is wrong (error code = {@link ErrorCode#FormatError})
         public static void LoadProfile(IList<string> json_profiles)
         {
             int index = 0;
@@ -105,12 +97,12 @@ namespace LanguageDetection
             }
         }
 
-        /**
-         * @param profile
-         * @param langsize 
-         * @param index 
-         * @throws LangDetectException 
-         */
+        /// <summary>
+        /// </summary>
+        /// <param name="profile"></param>
+        /// <param name="langsize"></param>
+        /// <param name="index"></param>
+        /// <exception>LangDetectException </exception>
         static public /*internal*/ void AddProfile(LangProfile profile, int index, int langsize)
         {
             string lang = profile.Name;
@@ -134,33 +126,31 @@ namespace LanguageDetection
             }
         }
 
-        /**
-         * Clear loaded language profiles (reinitialization to be available)
-         */
+        /// <summary>
+        /// Clear loaded language profiles (reinitialization to be available)
         static public void Clear()
         {
             instance_.langlist.Clear();
             instance_.wordLangProbMap.Clear();
         }
 
-        /**
-         * Construct Detector instance
-         * 
-         * @return Detector instance
-         * @throws LangDetectException 
-         */
+        /// <summary>
+        /// Construct Detector instance
+        /// </summary>
+        /// <returns>Detector instance</returns>
+        /// <exception>LangDetectException </exception>
         static public Detector Create()
         {
             return CreateDetector();
         }
 
-        /**
-         * Construct Detector instance with smoothing parameter 
-         * 
-         * @param alpha smoothing parameter (default value = 0.5)
-         * @return Detector instance
-         * @throws LangDetectException 
-         */
+        /// <summary>
+        /// Construct Detector instance with smoothing parameter 
+        /// </summary>
+        /// <param name="alpha">smoothing parameter (default value = 0.5)</param>
+        /// <returns>Detector instance</returns>
+        /// <exception>LangDetectException </exception>
+
         public static Detector Create(double alpha)
         {
             Detector detector = CreateDetector();
