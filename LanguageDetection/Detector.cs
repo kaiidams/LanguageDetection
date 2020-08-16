@@ -2,6 +2,7 @@
 
 
 
+using LanguageDetection.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -74,7 +75,7 @@ public class Detector {
     private int max_text_length = 10000;
     private double[] priorMap = null;
     private bool verbose = false;
-    private long? seed = null;
+    private int? seed = null;
 
     /**
      * Constructor.
@@ -220,6 +221,13 @@ public class Detector {
         List<Language> list = SortProbability(langprob);
         return list;
     }
+
+    private double SampleGaussian(Random rand)
+    {
+        double angle = Math.PI * rand.NextDouble();
+        double distance = Math.Sqrt(-2.0 * Math.Log(rand.NextDouble()));
+        return Math.Cos(angle) * distance;
+    }
     
     /**
      * @throws LangDetectException 
@@ -233,14 +241,13 @@ public class Detector {
         
         langprob = new double[langlist.Count];
 
-        Random rand = new Random();
-        if (seed != null) rand.setSeed(seed);
+        var rand = seed != null ? new Random((int)seed) : new Random();
         for (int t = 0; t < n_trial; ++t) {
             double[] prob = InitProbability();
-            double alpha = this.alpha + rand.nextGaussian() * ALPHA_WIDTH;
+            double alpha = this.alpha + SampleGaussian(rand) * ALPHA_WIDTH;
 
             for (int i = 0;; ++i) {
-                int r = rand.nextInt(ngrams.Count);
+                int r = rand.Next(ngrams.Count);
                 UpdateLangProb(prob, ngrams[r], alpha);
                 if (i % 5 == 0) {
                     if (NormalizeProb(prob) > CONV_THRESHOLD || i>=ITERATION_LIMIT) break;
@@ -302,15 +309,14 @@ public class Detector {
     }
 
     private string WordProbToString(double[] prob) {
-        Formatter formatter = new Formatter();
+        var sb = new StringBuilder();
         for(int j=0;j<prob.Length;++j) {
             double p = prob[j];
             if (p>=0.00001) {
-                formatter.format(" %s:%.5f", langlist[j], p);
+                sb.AppendFormat(" {0}:{1:F5}", langlist[j], p);
             }
         }
-        string str = formatter.ToString();
-        formatter.Close();
+        string str = sb.ToString();
         return str;
     }
     
@@ -359,9 +365,9 @@ public class Detector {
         for (int i = 0; i < word.Length; ++i) {
             char ch = word[i];
             if (ch >= '\u0080') {
-                string st = int.toHexString(0x10000 + (int) ch);
-                while (st.Length < 4) st = "0" + st;
-                buf.Append("\\u").Append(st.subSequence(1, 5));
+                string st = ((int)ch).ToString("X4");
+                buf.Append("\\u");
+                buf.Append(st);
             } else {
                 buf.Append(ch);
             }

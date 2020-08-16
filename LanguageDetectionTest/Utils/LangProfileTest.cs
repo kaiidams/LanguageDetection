@@ -3,6 +3,7 @@
 
 
 
+using LanguageDetection.Utils;
 using NUnit.Framework;
 /**
 * 
@@ -10,21 +11,8 @@ using NUnit.Framework;
 * @author Nakatani Shuyo
 *
 */
-public class LangProfileTest {
-
-    /**
-     * @throws java.lang.Exception
-     */
-    [BeforeClass]
-    public static void setUpBeforeClass() {
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    [AfterClass]
-    public static void tearDownAfterClass() {
-    }
+public class LangProfileTest
+{
 
     /**
      * @throws java.lang.Exception

@@ -4,7 +4,9 @@
 
 
 
+using LanguageDetection.Utils;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 /**
 * Unit test for {@link Detector} and {@link DetectorFactory}.
@@ -73,17 +75,17 @@ public class DetectorTest {
     
     [Test]
     public void testLangList() {
-        List<string> langList = DetectorFactory.GetLangList();
+        IList<string> langList = DetectorFactory.GetLangList();
         Assert.AreEqual(langList.Count, 3);
         Assert.AreEqual(langList[0], "en");
         Assert.AreEqual(langList[1], "fr");
         Assert.AreEqual(langList[2], "ja");
     }
 
-    [Test(expected = typeof(UnsupportedOperationException))]
+    [Test]
     public void testLangListException() {
-        List<string> langList = DetectorFactory.GetLangList();
-        langList.Add("hoge");
+        IList<string> langList = DetectorFactory.GetLangList();
+        Assert.Throws<NotSupportedException>(() => langList.Add("hoge"));
         //langList.Add(1, "hoge");
     }
 
@@ -94,7 +96,7 @@ public class DetectorTest {
         profiles.Add(JSON_LANG1);
         profiles.Add(JSON_LANG2);
         DetectorFactory.LoadProfile(profiles);
-        List<string> langList = DetectorFactory.GetLangList();
+        IList<string> langList = DetectorFactory.GetLangList();
         Assert.AreEqual(langList.Count, 2);
         Assert.AreEqual(langList[0], "lang1");
         Assert.AreEqual(langList[1], "lang2");

@@ -8,6 +8,7 @@ using System.IO;
 using System.Text.Json;
 using System;
 using System.Collections.ObjectModel;
+using LanguageDetection.Utils;
 
 /**
 * Language Detector Factory Class
@@ -32,7 +33,7 @@ using System.Collections.ObjectModel;
 public class DetectorFactory {
     public Dictionary<string, double[]> wordLangProbMap;
     public List<string> langlist;
-    public long? seed = null;
+    public int? seed = null;
     private DetectorFactory() {
         wordLangProbMap = new Dictionary<string, double[]>();
         langlist = new List<string>();
@@ -99,7 +100,7 @@ public class DetectorFactory {
      * @param index 
      * @throws LangDetectException 
      */
-    static internal void AddProfile(LangProfile profile, int index, int langsize) {
+    static public /*internal*/ void AddProfile(LangProfile profile, int index, int langsize) {
         string lang = profile.name;
         if (instance_.langlist.Contains(lang)) {
             throw new LangDetectException(ErrorCode.DuplicateLangError, "duplicate the same language profile");
@@ -155,7 +156,7 @@ public class DetectorFactory {
         return detector;
     }
     
-    public static void SetSeed(long seed) {
+    public static void SetSeed(int seed) {
         instance_.seed = seed;
     }
     

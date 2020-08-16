@@ -1,148 +1,182 @@
-
-
-
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Unicode;
-/**
-* Cut out N-gram from text. 
-* Users don't use this class directly.
-* @author Nakatani Shuyo
+
+namespace LanguageDetection.Utils
+{
+    /**
+    * Cut out N-gram from text. 
+    * Users don't use this class directly.
+    * @author Nakatani Shuyo
 */
-public class NGram {
-    private static readonly string LATIN1_EXCLUDED = Messages.GetString("NGram.LATIN1_EXCLUDE");
-    public const int N_GRAM = 3;
-    public static Dictionary<char, char> cjk_map; 
-    
-    private StringBuilder grams_;
-    private bool capitalword_;
+    public class NGram
+    {
+        private static readonly string LATIN1_EXCLUDED = Messages.GetString("NGram.LATIN1_EXCLUDE");
+        public const int N_GRAM = 3;
+        public static Dictionary<char, char> cjk_map;
 
-    /**
-     * Constructor.
-     */
-    public NGram() {
-        grams_ = new StringBuilder(" ");
-        capitalword_ = false;
-    }
+        private StringBuilder grams_;
+        private bool capitalword_;
 
-    /**
-     * Append a character into ngram buffer.
-     * @param ch
-     */
-    public void AddChar(char ch) {
-        ch = normalize(ch);
-        char lastchar = grams_[grams_.Length - 1];
-        if (lastchar == ' ') {
+        /**
+         * Constructor.
+         */
+        public NGram()
+        {
             grams_ = new StringBuilder(" ");
             capitalword_ = false;
-            if (ch==' ') return;
-        } else if (grams_.Length >= N_GRAM) {
-            grams_.deleteCharAt(0);
         }
-        grams_.Append(ch);
 
-        if (char.IsUpper(ch)){
-            if (char.IsUpper(lastchar)) capitalword_ = true;
-        } else {
-            capitalword_ = false;
-        }
-    }
-
-    /**
-     * Get n-Gram
-     * @param n Length of n-gram
-     * @return n-Gram string (null if it is invalid)
-     */
-    public string this[int n] {
-        get
+        /**
+         * Append a character into ngram buffer.
+         * @param ch
+         */
+        public void AddChar(char ch)
         {
-            if (capitalword_) return null;
-            int len = grams_.Length;
-            if (n < 1 || n > 3 || len < n) return null;
-            if (n == 1)
+            ch = normalize(ch);
+            char lastchar = grams_[grams_.Length - 1];
+            if (lastchar == ' ')
             {
-                char ch = grams_[len - 1];
-                if (ch == ' ') return null;
-                return char.ToString(ch);
+                grams_ = new StringBuilder(" ");
+                capitalword_ = false;
+                if (ch == ' ') return;
+            }
+            else if (grams_.Length >= N_GRAM)
+            {
+                // TODO: grams_.deleteCharAt(0);
+            }
+            grams_.Append(ch);
+
+            if (char.IsUpper(ch))
+            {
+                if (char.IsUpper(lastchar)) capitalword_ = true;
             }
             else
             {
-                return grams_.SubString(len - n, len);
+                capitalword_ = false;
             }
         }
-    }
-    
-    /**
-     * char Normalization
-     * @param ch
-     * @return Normalized character
-     */
-    static public char normalize(char ch) {
-        UnicodeRange block = UnicodeRanges.of(ch);
-        if (block == UnicodeRanges.BasicLatin) {
-            if (ch<'A' || (ch<'a' && ch >'Z') || ch>'z') ch = ' ';
-        } else if (block == UnicodeRanges.Latin1Supplement) {
-            if (LATIN1_EXCLUDED.IndexOf(ch)>=0) ch = ' ';
-        } else if (block == UnicodeRanges.LatinExtendedB) {
-            // normalization for Romanian
-            if (ch == '\u0219') ch = '\u015f';  // Small S with comma below => with cedilla
-            if (ch == '\u021b') ch = '\u0163';  // Small T with comma below => with cedilla
-        } else if (block == UnicodeRanges.GeneralPunctuation) {
-            ch = ' ';
-        } else if (block == UnicodeRanges.Arabic) {
-            if (ch == '\u06cc') ch = '\u064a';  // Farsi yeh => Arabic yeh
-        } else if (block == UnicodeRanges.LatinExtendedAdditional) {
-            if (ch >= '\u1ea0') ch = '\u1ec3';
-        } else if (block == UnicodeRanges.Hiragana) {
-            ch = '\u3042';
-        } else if (block == UnicodeRanges.Katakana) {
-            ch = '\u30a2';
-        } else if (block == UnicodeRanges.Bopomofo || block == UnicodeRanges.BopomofoExtended) {
-            ch = '\u3105';
-        } else if (block == UnicodeRanges.CjkUnifiedIdeographs) {
-            if (cjk_map.ContainsKey(ch)) ch = cjk_map[ch];
-        } else if (block == UnicodeRanges.HangulSyllables) {
-            ch = '\uac00';
-        }
-        return ch;
-    }
 
-    /**
-     * Normalizer for Vietnamese.
-     * Normalize Alphabet + Diacritical Mark(U+03xx) into U+1Exx .
-     * @param text
-     * @return normalized text
-     */
-    public static string normalize_vi(string text) {
-        var matches = ALPHABET_WITH_DMARK.Matches(text);
-        StringBuilder buf = new StringBuilder();
-        foreach (Match m in matches) {
-            int alphabet = TO_NORMALIZE_VI_CHARS.IndexOf(m.Groups[1].Value);
-            int dmark = DMARK_CLASS.IndexOf(m.Groups[2].Value); // Diacritical Mark
-            m.appendReplacement(buf, NORMALIZED_VI_CHARS[dmark].Substring(alphabet, alphabet + 1));
+        /**
+         * Get n-Gram
+         * @param n Length of n-gram
+         * @return n-Gram string (null if it is invalid)
+         */
+        public string this[int n]
+        {
+            get
+            {
+                if (capitalword_) return null;
+                int len = grams_.Length;
+                if (n < 1 || n > 3 || len < n) return null;
+                if (n == 1)
+                {
+                    char ch = grams_[len - 1];
+                    if (ch == ' ') return null;
+                    return char.ToString(ch);
+                }
+                else
+                {
+                    return ""; // TODO grams_.SubString(len - n, len);
+                }
+            }
         }
-        if (buf.Length == 0)
-            return text;
-        m.appendTail(buf);
-        return buf.ToString();
-    }
 
-    private static readonly string[] NORMALIZED_VI_CHARS = {
+        /**
+         * char Normalization
+         * @param ch
+         * @return Normalized character
+         */
+        static public char normalize(char ch)
+        {
+            UnicodeRange block = null; // TODO UnicodeRanges.of(ch);
+            if (block == UnicodeRanges.BasicLatin)
+            {
+                if (ch < 'A' || (ch < 'a' && ch > 'Z') || ch > 'z') ch = ' ';
+            }
+            else if (block == UnicodeRanges.Latin1Supplement)
+            {
+                if (LATIN1_EXCLUDED.IndexOf(ch) >= 0) ch = ' ';
+            }
+            else if (block == UnicodeRanges.LatinExtendedB)
+            {
+                // normalization for Romanian
+                if (ch == '\u0219') ch = '\u015f';  // Small S with comma below => with cedilla
+                if (ch == '\u021b') ch = '\u0163';  // Small T with comma below => with cedilla
+            }
+            else if (block == UnicodeRanges.GeneralPunctuation)
+            {
+                ch = ' ';
+            }
+            else if (block == UnicodeRanges.Arabic)
+            {
+                if (ch == '\u06cc') ch = '\u064a';  // Farsi yeh => Arabic yeh
+            }
+            else if (block == UnicodeRanges.LatinExtendedAdditional)
+            {
+                if (ch >= '\u1ea0') ch = '\u1ec3';
+            }
+            else if (block == UnicodeRanges.Hiragana)
+            {
+                ch = '\u3042';
+            }
+            else if (block == UnicodeRanges.Katakana)
+            {
+                ch = '\u30a2';
+            }
+            else if (block == UnicodeRanges.Bopomofo || block == UnicodeRanges.BopomofoExtended)
+            {
+                ch = '\u3105';
+            }
+            else if (block == UnicodeRanges.CjkUnifiedIdeographs)
+            {
+                if (cjk_map.ContainsKey(ch)) ch = cjk_map[ch];
+            }
+            else if (block == UnicodeRanges.HangulSyllables)
+            {
+                ch = '\uac00';
+            }
+            return ch;
+        }
+
+        /**
+         * Normalizer for Vietnamese.
+         * Normalize Alphabet + Diacritical Mark(U+03xx) into U+1Exx .
+         * @param text
+         * @return normalized text
+         */
+        public static string normalize_vi(string text)
+        {
+            var matches = ALPHABET_WITH_DMARK.Matches(text);
+            StringBuilder buf = new StringBuilder();
+            foreach (Match m in matches)
+            {
+                int alphabet = TO_NORMALIZE_VI_CHARS.IndexOf(m.Groups[1].Value);
+                int dmark = DMARK_CLASS.IndexOf(m.Groups[2].Value); // Diacritical Mark
+                // TODO: m.appendReplacement(buf, NORMALIZED_VI_CHARS[dmark].Substring(alphabet, alphabet + 1));
+            }
+            if (buf.Length == 0)
+                return text;
+            // TODO: m.appendTail(buf);
+            return buf.ToString();
+        }
+
+        private static readonly string[] NORMALIZED_VI_CHARS = {
             Messages.GetString("NORMALIZED_VI_CHARS_0300"),
             Messages.GetString("NORMALIZED_VI_CHARS_0301"),
             Messages.GetString("NORMALIZED_VI_CHARS_0303"),
             Messages.GetString("NORMALIZED_VI_CHARS_0309"),
             Messages.GetString("NORMALIZED_VI_CHARS_0323") };
-    private static readonly string TO_NORMALIZE_VI_CHARS = Messages.GetString("TO_NORMALIZE_VI_CHARS");
-    private static readonly string DMARK_CLASS = Messages.GetString("DMARK_CLASS");
-    private static readonly Regex ALPHABET_WITH_DMARK = new Regex("([" + TO_NORMALIZE_VI_CHARS + "])(["
-            + DMARK_CLASS + "])");
+        private static readonly string TO_NORMALIZE_VI_CHARS = Messages.GetString("TO_NORMALIZE_VI_CHARS");
+        private static readonly string DMARK_CLASS = Messages.GetString("DMARK_CLASS");
+        private static readonly Regex ALPHABET_WITH_DMARK = new Regex("([" + TO_NORMALIZE_VI_CHARS + "])(["
+                + DMARK_CLASS + "])");
 
-    /**
-     * CJK Kanji Normalization Mapping
-     */
-    static readonly string[] CJK_CLASS = {
+        /**
+         * CJK Kanji Normalization Mapping
+         */
+        static readonly string[] CJK_CLASS = {
         Messages.GetString("NGram.KANJI_1_0"),
         Messages.GetString("NGram.KANJI_1_2"),
         Messages.GetString("NGram.KANJI_1_4"),
@@ -271,12 +305,16 @@ public class NGram {
         Messages.GetString("NGram.KANJI_7_37"),
     };
 
-    static NGram() {
-        cjk_map = new Dictionary<char, char>();
-        foreach (string cjk_list in CJK_CLASS) {
-            char representative = cjk_list[0];
-            for (int i=0;i<cjk_list.Length;++i) {
-                cjk_map[cjk_list[i]] = representative;
+        static NGram()
+        {
+            cjk_map = new Dictionary<char, char>();
+            foreach (string cjk_list in CJK_CLASS)
+            {
+                char representative = cjk_list[0];
+                for (int i = 0; i < cjk_list.Length; ++i)
+                {
+                    cjk_map[cjk_list[i]] = representative;
+                }
             }
         }
     }

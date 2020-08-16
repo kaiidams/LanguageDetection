@@ -3,6 +3,7 @@
 
 
 
+using LanguageDetection.Utils;
 using NUnit.Framework;
 /**
 * 
@@ -30,8 +31,9 @@ public class NGramTest {
      * Test method for constants
      */
     [Test]
-    public void testConstants() {
-        AssertThat(NGram.N_GRAM, is(3));
+    public void testConstants()
+    {
+        Assert.IsInstanceOf<int>(NGram.N_GRAM);
         Assert.AreEqual(NGram.N_GRAM, 3);
     }
 

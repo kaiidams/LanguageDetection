@@ -3,7 +3,7 @@
 
 
 
-using LanguageDetection.Util;
+using LanguageDetection.Utils;
 using NUnit.Framework;
 /**
 * 
@@ -12,35 +12,6 @@ using NUnit.Framework;
 *
 */
 public class TagExtractorTest {
-
-    /**
-     * @throws java.lang.Exception
-     */
-    [BeforeClass]
-    public static void setUpBeforeClass() {
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    [AfterClass]
-    public static void tearDownAfterClass() {
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    [SetUp]
-    public void setUp() {
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    [TearDown]
-    public void tearDown() {
-    }
-
     /**
      * Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#TagExtractor(java.lang.string, int)}.
      */
@@ -53,7 +24,7 @@ public class TagExtractorTest {
         TagExtractor extractor2 = new TagExtractor("abstract", 10);
         Assert.AreEqual(extractor2.target_, "abstract");
         Assert.AreEqual(extractor2.threshold_, 10);
-}
+    }
 
     /**
      * Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#setTag(java.lang.string)}.
