@@ -34,7 +34,7 @@ namespace LanguageDetection.Utils
          */
         public void AddChar(char ch)
         {
-            ch = normalize(ch);
+            ch = Normalize(ch);
             char lastchar = grams_[grams_.Length - 1];
             if (lastchar == ' ')
             {
@@ -45,6 +45,7 @@ namespace LanguageDetection.Utils
             else if (grams_.Length >= N_GRAM)
             {
                 // TODO: grams_.deleteCharAt(0);
+                grams_.ToString();
             }
             grams_.Append(ch);
 
@@ -88,56 +89,60 @@ namespace LanguageDetection.Utils
          * @param ch
          * @return Normalized character
          */
-        static public char normalize(char ch)
+        public static char Normalize(char ch)
         {
-            UnicodeRange block = null; // TODO UnicodeRanges.of(ch);
-            if (block == UnicodeRanges.BasicLatin)
+            if (CharIsInUnicodeRange(ch, UnicodeRanges.BasicLatin))
             {
                 if (ch < 'A' || (ch < 'a' && ch > 'Z') || ch > 'z') ch = ' ';
             }
-            else if (block == UnicodeRanges.Latin1Supplement)
+            else if (CharIsInUnicodeRange(ch, UnicodeRanges.Latin1Supplement))
             {
                 if (LATIN1_EXCLUDED.IndexOf(ch) >= 0) ch = ' ';
             }
-            else if (block == UnicodeRanges.LatinExtendedB)
+            else if (CharIsInUnicodeRange(ch, UnicodeRanges.LatinExtendedB))
             {
                 // normalization for Romanian
                 if (ch == '\u0219') ch = '\u015f';  // Small S with comma below => with cedilla
                 if (ch == '\u021b') ch = '\u0163';  // Small T with comma below => with cedilla
             }
-            else if (block == UnicodeRanges.GeneralPunctuation)
+            else if (CharIsInUnicodeRange(ch, UnicodeRanges.GeneralPunctuation))
             {
                 ch = ' ';
             }
-            else if (block == UnicodeRanges.Arabic)
+            else if (CharIsInUnicodeRange(ch, UnicodeRanges.Arabic))
             {
                 if (ch == '\u06cc') ch = '\u064a';  // Farsi yeh => Arabic yeh
             }
-            else if (block == UnicodeRanges.LatinExtendedAdditional)
+            else if (CharIsInUnicodeRange(ch, UnicodeRanges.LatinExtendedAdditional))
             {
                 if (ch >= '\u1ea0') ch = '\u1ec3';
             }
-            else if (block == UnicodeRanges.Hiragana)
+            else if (CharIsInUnicodeRange(ch, UnicodeRanges.Hiragana))
             {
                 ch = '\u3042';
             }
-            else if (block == UnicodeRanges.Katakana)
+            else if (CharIsInUnicodeRange(ch, UnicodeRanges.Katakana))
             {
                 ch = '\u30a2';
             }
-            else if (block == UnicodeRanges.Bopomofo || block == UnicodeRanges.BopomofoExtended)
+            else if (CharIsInUnicodeRange(ch, UnicodeRanges.Bopomofo) || CharIsInUnicodeRange(ch, UnicodeRanges.BopomofoExtended))
             {
                 ch = '\u3105';
             }
-            else if (block == UnicodeRanges.CjkUnifiedIdeographs)
+            else if (CharIsInUnicodeRange(ch, UnicodeRanges.CjkUnifiedIdeographs))
             {
                 if (cjk_map.ContainsKey(ch)) ch = cjk_map[ch];
             }
-            else if (block == UnicodeRanges.HangulSyllables)
+            else if (CharIsInUnicodeRange(ch, UnicodeRanges.HangulSyllables))
             {
                 ch = '\uac00';
             }
             return ch;
+        }
+
+        private static bool CharIsInUnicodeRange(char ch, UnicodeRange range)
+        {
+            return ch >= range.FirstCodePoint && ch < range.FirstCodePoint + range.Length;
         }
 
         /**

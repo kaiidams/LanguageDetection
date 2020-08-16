@@ -42,22 +42,22 @@ namespace LanguageDetectionTest.Utils
         [Test]
         public void testNormalizeWithLatin()
         {
-            Assert.AreEqual(NGram.normalize('\u0000'), ' ');
-            Assert.AreEqual(NGram.normalize('\u0009'), ' ');
-            Assert.AreEqual(NGram.normalize('\u0020'), ' ');
-            Assert.AreEqual(NGram.normalize('\u0030'), ' ');
-            Assert.AreEqual(NGram.normalize('\u0040'), ' ');
-            Assert.AreEqual(NGram.normalize('\u0041'), '\u0041');
-            Assert.AreEqual(NGram.normalize('\u005a'), '\u005a');
-            Assert.AreEqual(NGram.normalize('\u005b'), ' ');
-            Assert.AreEqual(NGram.normalize('\u0060'), ' ');
-            Assert.AreEqual(NGram.normalize('\u0061'), '\u0061');
-            Assert.AreEqual(NGram.normalize('\u007a'), '\u007a');
-            Assert.AreEqual(NGram.normalize('\u007b'), ' ');
-            Assert.AreEqual(NGram.normalize('\u007f'), ' ');
-            Assert.AreEqual(NGram.normalize('\u0080'), '\u0080');
-            Assert.AreEqual(NGram.normalize('\u00a0'), ' ');
-            Assert.AreEqual(NGram.normalize('\u00a1'), '\u00a1');
+            Assert.AreEqual(NGram.Normalize('\u0000'), ' ');
+            Assert.AreEqual(NGram.Normalize('\u0009'), ' ');
+            Assert.AreEqual(NGram.Normalize('\u0020'), ' ');
+            Assert.AreEqual(NGram.Normalize('\u0030'), ' ');
+            Assert.AreEqual(NGram.Normalize('\u0040'), ' ');
+            Assert.AreEqual(NGram.Normalize('\u0041'), '\u0041');
+            Assert.AreEqual(NGram.Normalize('\u005a'), '\u005a');
+            Assert.AreEqual(NGram.Normalize('\u005b'), ' ');
+            Assert.AreEqual(NGram.Normalize('\u0060'), ' ');
+            Assert.AreEqual(NGram.Normalize('\u0061'), '\u0061');
+            Assert.AreEqual(NGram.Normalize('\u007a'), '\u007a');
+            Assert.AreEqual(NGram.Normalize('\u007b'), ' ');
+            Assert.AreEqual(NGram.Normalize('\u007f'), ' ');
+            Assert.AreEqual(NGram.Normalize('\u0080'), '\u0080');
+            Assert.AreEqual(NGram.Normalize('\u00a0'), ' ');
+            Assert.AreEqual(NGram.Normalize('\u00a1'), '\u00a1');
         }
 
         /**
@@ -66,31 +66,31 @@ namespace LanguageDetectionTest.Utils
         [Test]
         public void testNormalizeWithCJKKanji()
         {
-            Assert.AreEqual(NGram.normalize('\u4E00'), '\u4E00');
-            Assert.AreEqual(NGram.normalize('\u4E01'), '\u4E01');
-            Assert.AreEqual(NGram.normalize('\u4E02'), '\u4E02');
-            Assert.AreEqual(NGram.normalize('\u4E03'), '\u4E01');
-            Assert.AreEqual(NGram.normalize('\u4E04'), '\u4E04');
-            Assert.AreEqual(NGram.normalize('\u4E05'), '\u4E05');
-            Assert.AreEqual(NGram.normalize('\u4E06'), '\u4E06');
-            Assert.AreEqual(NGram.normalize('\u4E07'), '\u4E07');
-            Assert.AreEqual(NGram.normalize('\u4E08'), '\u4E08');
-            Assert.AreEqual(NGram.normalize('\u4E09'), '\u4E09');
-            Assert.AreEqual(NGram.normalize('\u4E10'), '\u4E10');
-            Assert.AreEqual(NGram.normalize('\u4E11'), '\u4E11');
-            Assert.AreEqual(NGram.normalize('\u4E12'), '\u4E12');
-            Assert.AreEqual(NGram.normalize('\u4E13'), '\u4E13');
-            Assert.AreEqual(NGram.normalize('\u4E14'), '\u4E14');
-            Assert.AreEqual(NGram.normalize('\u4E15'), '\u4E15');
-            Assert.AreEqual(NGram.normalize('\u4E1e'), '\u4E1e');
-            Assert.AreEqual(NGram.normalize('\u4E1f'), '\u4E1f');
-            Assert.AreEqual(NGram.normalize('\u4E20'), '\u4E20');
-            Assert.AreEqual(NGram.normalize('\u4E21'), '\u4E21');
-            Assert.AreEqual(NGram.normalize('\u4E22'), '\u4E22');
-            Assert.AreEqual(NGram.normalize('\u4E23'), '\u4E23');
-            Assert.AreEqual(NGram.normalize('\u4E24'), '\u4E13');
-            Assert.AreEqual(NGram.normalize('\u4E25'), '\u4E13');
-            Assert.AreEqual(NGram.normalize('\u4E30'), '\u4E30');
+            Assert.AreEqual(NGram.Normalize('\u4E00'), '\u4E00');
+            Assert.AreEqual(NGram.Normalize('\u4E01'), '\u4E01');
+            Assert.AreEqual(NGram.Normalize('\u4E02'), '\u4E02');
+            Assert.AreEqual(NGram.Normalize('\u4E03'), '\u4E01');
+            Assert.AreEqual(NGram.Normalize('\u4E04'), '\u4E04');
+            Assert.AreEqual(NGram.Normalize('\u4E05'), '\u4E05');
+            Assert.AreEqual(NGram.Normalize('\u4E06'), '\u4E06');
+            Assert.AreEqual(NGram.Normalize('\u4E07'), '\u4E07');
+            Assert.AreEqual(NGram.Normalize('\u4E08'), '\u4E08');
+            Assert.AreEqual(NGram.Normalize('\u4E09'), '\u4E09');
+            Assert.AreEqual(NGram.Normalize('\u4E10'), '\u4E10');
+            Assert.AreEqual(NGram.Normalize('\u4E11'), '\u4E11');
+            Assert.AreEqual(NGram.Normalize('\u4E12'), '\u4E12');
+            Assert.AreEqual(NGram.Normalize('\u4E13'), '\u4E13');
+            Assert.AreEqual(NGram.Normalize('\u4E14'), '\u4E14');
+            Assert.AreEqual(NGram.Normalize('\u4E15'), '\u4E15');
+            Assert.AreEqual(NGram.Normalize('\u4E1e'), '\u4E1e');
+            Assert.AreEqual(NGram.Normalize('\u4E1f'), '\u4E1f');
+            Assert.AreEqual(NGram.Normalize('\u4E20'), '\u4E20');
+            Assert.AreEqual(NGram.Normalize('\u4E21'), '\u4E21');
+            Assert.AreEqual(NGram.Normalize('\u4E22'), '\u4E22');
+            Assert.AreEqual(NGram.Normalize('\u4E23'), '\u4E23');
+            Assert.AreEqual(NGram.Normalize('\u4E24'), '\u4E13');
+            Assert.AreEqual(NGram.Normalize('\u4E25'), '\u4E13');
+            Assert.AreEqual(NGram.Normalize('\u4E30'), '\u4E30');
         }
 
         /**
@@ -99,10 +99,10 @@ namespace LanguageDetectionTest.Utils
         [Test]
         public void testNormalizeForRomanian()
         {
-            Assert.AreEqual(NGram.normalize('\u015f'), '\u015f');
-            Assert.AreEqual(NGram.normalize('\u0163'), '\u0163');
-            Assert.AreEqual(NGram.normalize('\u0219'), '\u015f');
-            Assert.AreEqual(NGram.normalize('\u021b'), '\u0163');
+            Assert.AreEqual(NGram.Normalize('\u015f'), '\u015f');
+            Assert.AreEqual(NGram.Normalize('\u0163'), '\u0163');
+            Assert.AreEqual(NGram.Normalize('\u0219'), '\u015f');
+            Assert.AreEqual(NGram.Normalize('\u021b'), '\u0163');
         }
 
         /**
