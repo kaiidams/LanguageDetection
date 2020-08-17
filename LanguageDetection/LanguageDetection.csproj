@@ -8,7 +8,7 @@
     <Company>BrokenEgg</Company>
     <Description>Language Detection is a natural language detection library implemented in pure C# ported from https://github.com/shuyo/language-detection.</Description>
     <PackageProjectUrl>https://github.com/brokenegg/LanguageDetection</PackageProjectUrl>
-    <PackageLicenseExpression>Apache License 2.0</PackageLicenseExpression>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

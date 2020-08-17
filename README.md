@@ -13,6 +13,10 @@ ported from https://github.com/shuyo/language-detection.
 
   * .NET Standard 2.0
 
+## Binaries
+
+  * [NuGet Page](https://www.nuget.org/packages/BrokenEgg.LanguageDetection)
+
 ## Sample
 
 ```csharp
